@@ -92,7 +92,7 @@ sleep 5
 PF_VERSION="testing_combined_volume_plugin"
 MY_HOST_UUID=$(python -c "import json; print json.load(open('/etc/flocker/volume.json'))['uuid']")
 MY_NETWORK_IDENTITY=$(cat /etc/flocker/nodeip.txt)
-FLOCKER_CONTROL_SERVICE_BASE_URL=http://$CONTROL_NODE:4524/v1
+FLOCKER_CONTROL_SERVICE_BASE_URL=http://$CONTROL_NODE:4523/v1
 TWISTD=`which twistd`
 PLUGINROOT=/root/powerstrip-flocker
 
@@ -121,9 +121,11 @@ EOF
 
 # install the latest docker binary that understands plugins
 service docker stop
-wget -quiet -O /usr/bin/docker http://storage.googleapis.com/experiments-clusterhq/docker-volume-extensions/docker
+wget --quiet -O /usr/bin/docker http://storage.googleapis.com/experiments-clusterhq/docker-volume-extensions/docker
 chmod a+x /usr/bin/docker
 service docker start
+
+mkdir -p /usr/share/docker/plugins
 
 supervisorctl update
 COMMON
