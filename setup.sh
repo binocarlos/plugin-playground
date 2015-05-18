@@ -110,35 +110,39 @@ setup-docker() {
   service docker stop
   wget --quiet -O /usr/bin/docker http://storage.googleapis.com/experiments-clusterhq/docker-volume-extensions/docker
   chmod a+x /usr/bin/docker
-  service docker start
+  
 
-  mkdir -p /usr/share/docker/plugins  
+  cat << EOF > /etc/default/docker
+DOCKER_OPTS="$@"
+EOF
+
+  rm -f /etc/docker/key.json
+  rm -f /var/run/docker.sock
+  mkdir -p /usr/share/docker/plugins
+
+  service docker start
 }
 
 setup-common() {
   setup-ssh
   setup-zpool
   setup-config
+  setup-docker $@
 }
 
 setup-minion() {
-  setup-common
+  setup-common $@
   setup-zfs-agent
   setup-container-agent
   supervisorctl update
   sleep 5
-  setup-docker
-  supervisorctl update
   setup-flocker-plugin
   supervisorctl update
 }
 
 setup-master() {
-  setup-common
+  setup-common $@
   setup-control-service
-  supervisorctl update
-  sleep 5
-  setup-docker
   supervisorctl update
 }
 
