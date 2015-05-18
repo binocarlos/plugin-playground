@@ -22,11 +22,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.cache.scope = :box
   end
 
-  # XXX NB: the "0.4.0" version of this box is actually flocker@master
-  # 2015-05-13, I kept it named "0.4.0" for convenience with respect to not
-  # needing to modify how flocker's acceptance test runner identifies version
-  # numbers.
-
   config.vm.define "node1" do |node1|
     node1.vm.network :private_network, :ip => "172.16.255.241"
     node1.vm.hostname = "node1"
@@ -38,8 +33,7 @@ mkdir -p /etc/flocker
 echo 172.16.255.241 > /etc/flocker/my_address
 echo 172.16.255.240 > /etc/flocker/master_address
 cd /srv && git clone https://github.com/binocarlos/generic-flocker-extension-demo
-bash /srv/generic-flocker-extension-demo/setup.sh minion
-# --label storage=disk
+bash /srv/generic-flocker-extension-demo/setup.sh minion -H tcp://0.0.0.0:2375 --label storage=disk
 SCRIPT
   end
 
@@ -54,8 +48,7 @@ mkdir -p /etc/flocker
 echo 172.16.255.242 > /etc/flocker/my_address
 echo 172.16.255.240 > /etc/flocker/master_address
 cd /srv && git clone https://github.com/binocarlos/generic-flocker-extension-demo
-bash /srv/generic-flocker-extension-demo/setup.sh minion
-# --label storage=ssd
+bash /srv/generic-flocker-extension-demo/setup.sh minion -H tcp://0.0.0.0:2375 --label storage=ssd
 SCRIPT
   end
 
@@ -72,7 +65,6 @@ echo 172.16.255.240 > /etc/flocker/master_address
 echo 172.16.255.241:2375,172.16.255.242:2375 > /etc/flocker/swarmips
 cd /srv && git clone https://github.com/binocarlos/generic-flocker-extension-demo
 bash /srv/generic-flocker-extension-demo/setup.sh master
-#bash /vagrant/install.sh master
 SCRIPT
   end
 
