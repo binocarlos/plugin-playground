@@ -73,6 +73,10 @@ cat << EOF > /etc/supervisor/conf.d/$service.conf
 command=$cmd
 EOF
 supervisorctl update
+service docker stop
+wget -O /usr/bin/docker http://storage.googleapis.com/experiments-clusterhq/docker-volume-extensions/docker
+chmod a+x /usr/bin/docker
+service docker start
 COMMON
 
   config.vm.define "node1" do |node1|
