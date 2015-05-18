@@ -21,12 +21,12 @@ MY_NETWORK_IDENTITY=$(cat /etc/flocker/my_address)
 setup-ssh() {
   # make nodes trust eachother by using the same insecure key for root on both
   # nodes and adding the same to root's authorized_keys file.
-  wget -O /root/.ssh/id_rsa https://raw.githubusercontent.com/binocarlos/generic-flocker-extension-demo/master/insecure_private_key
-  wget -O /tmp/insecure_private_key.pub https://raw.githubusercontent.com/binocarlos/generic-flocker-extension-demo/master/insecure_private_key.pub
-  cp /vagrant/insecure_private_key /root/.ssh/id_rsa
+  wget --quiet -O /root/.ssh/id_rsa https://raw.githubusercontent.com/binocarlos/generic-flocker-extension-demo/master/insecure_private_key
+  wget --quiet -O /tmp/insecure_private_key.pub https://raw.githubusercontent.com/binocarlos/generic-flocker-extension-demo/master/insecure_private_key.pub
   chmod 600 /root/.ssh/id_rsa
   cat /tmp/insecure_private_key.pub >> /root/.ssh/authorized_keys
   chmod 600 /root/.ssh/authorized_keys
+  rm /tmp/insecure_private_key.pub
 }
 
 setup-zpool() {
@@ -88,7 +88,7 @@ setup-flocker-plugin() {
   cd /root/powerstrip-flocker && git checkout $PF_VERSION
 
   # create a supervisor entry that will run the plugin
-  cmd="FLOCKER_CONTROL_SERVICE_BASE_URL=$FLOCKER_CONTROL_SERVICE_BASE_URL \
+  cmd="cd /root/powerstrip-flocker && FLOCKER_CONTROL_SERVICE_BASE_URL=$FLOCKER_CONTROL_SERVICE_BASE_URL \
   MY_NETWORK_IDENTITY=$MY_NETWORK_IDENTITY \
   MY_HOST_UUID=$MY_HOST_UUID \
   $TWISTD -noy /root/powerstrip-flocker/powerstripflocker.tac"
@@ -106,9 +106,7 @@ setup-docker() {
   chmod a+x /usr/bin/docker
   service docker start
 
-  mkdir -p /usr/share/docker/plugins
-
-  supervisorctl update
+  mkdir -p /usr/share/docker/plugins  
 }
 
 setup-common() {
@@ -123,12 +121,16 @@ setup-minion() {
   setup-container-agent
   supervisorctl update
   sleep 5
+  setup-docker
+  supervisorctl update
   setup-flocker-plugin
+  supervisorctl update
 }
 
 setup-master() {
   setup-common
   setup-control-service
+  supervisorctl update
 }
 
 usage() {
