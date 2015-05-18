@@ -28,12 +28,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # numbers.
 
 $node1 = <<NODE1
+mkdir -p /etc/flocker
 echo 172.16.255.240 > /etc/flocker/nodeip.txt
 NODE1
 
-$node2 = <<NODE1
+$node2 = <<NODE2
+mkdir -p /etc/flocker
 echo 172.16.255.241 > /etc/flocker/nodeip.txt
-NODE1
+NODE2
 
 $master = <<MASTER
 # setup flocker-control on master only
@@ -82,7 +84,7 @@ command=$cmd
 EOF
 
 # variables for running the flocker plugin
-PF_VERSION = "testing_combined_volume_plugin"
+PF_VERSION="testing_combined_volume_plugin"
 MY_HOST_UUID=$(python -c "import json; print json.load(open('/etc/flocker/volume.json'))['uuid']")
 MY_NETWORK_IDENTITY=$(cat /etc/flocker/nodeip.txt)
 FLOCKER_CONTROL_SERVICE_BASE_URL=http://$CONTROL_NODE:4524/v1
@@ -124,13 +126,13 @@ COMMON
   config.vm.define "node1" do |node1|
     node1.vm.network :private_network, :ip => "172.16.255.240"
     node1.vm.hostname = "node1"
-    node1.vm.provision "shell", inline: $master + $common
+    node1.vm.provision "shell", inline: $node1 + $master + $common
   end
 
   config.vm.define "node2" do |node2|
     node2.vm.network :private_network, :ip => "172.16.255.241"
     node2.vm.hostname = "node2"
-    node2.vm.provision "shell", inline: $common
+    node2.vm.provision "shell", inline: $node2 + $common
   end
 
   config.vm.provision "file", source: "~/.ssh/id_rsa_flocker.pub", destination: "/tmp/id_rsa_flocker.pub"
