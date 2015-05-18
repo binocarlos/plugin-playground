@@ -83,6 +83,11 @@ cat << EOF > /etc/supervisor/conf.d/$service.conf
 command=$cmd
 EOF
 
+# we need to kick off the flocker agents now so that /etc/flocker/volume.json exists
+supervisorctl update
+
+sleep 5
+
 # variables for running the flocker plugin
 PF_VERSION="testing_combined_volume_plugin"
 MY_HOST_UUID=$(python -c "import json; print json.load(open('/etc/flocker/volume.json'))['uuid']")
@@ -116,7 +121,7 @@ EOF
 
 # install the latest docker binary that understands plugins
 service docker stop
-wget -O /usr/bin/docker http://storage.googleapis.com/experiments-clusterhq/docker-volume-extensions/docker
+wget -quiet -O /usr/bin/docker http://storage.googleapis.com/experiments-clusterhq/docker-volume-extensions/docker
 chmod a+x /usr/bin/docker
 service docker start
 
