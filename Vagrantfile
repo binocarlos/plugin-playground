@@ -27,6 +27,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # needing to modify how flocker's acceptance test runner identifies version
   # numbers.
 
+$node1 = <<NODE1
+echo 172.16.255.240 > /etc/flocker/nodeip.txt
+NODE1
+
+$node2 = <<NODE1
+echo 172.16.255.241 > /etc/flocker/nodeip.txt
+NODE1
+
 $master = <<MASTER
 # setup flocker-control on master only
 FLOCKER_CONTROL_PORT=4523
@@ -72,11 +80,45 @@ cat << EOF > /etc/supervisor/conf.d/$service.conf
 [program:$service]
 command=$cmd
 EOF
-supervisorctl update
+
+# variables for running the flocker plugin
+PF_VERSION = "testing_combined_volume_plugin"
+MY_HOST_UUID=$(python -c "import json; print json.load(open('/etc/flocker/volume.json'))['uuid']")
+MY_NETWORK_IDENTITY=$(cat /etc/flocker/nodeip.txt)
+FLOCKER_CONTROL_SERVICE_BASE_URL=http://$CONTROL_NODE:4524/v1
+TWISTD=`which twistd`
+PLUGINROOT=/root/powerstrip-flocker
+
+# checkout the correct flocker plugin branch
+cd /root && git clone https://github.com/clusterhq/powerstrip-flocker
+cd /root/powerstrip-flocker && git checkout $PF_VERSION
+
+# create a bash script that will start the plugin
+cat << EOF > /root/run-flocker-plugin.sh
+#!/usr/bin/env bash
+cd /root/powerstrip-flocker && \
+FLOCKER_CONTROL_SERVICE_BASE_URL=$FLOCKER_CONTROL_SERVICE_BASE_URL \
+MY_NETWORK_IDENTITY=$MY_NETWORK_IDENTITY \
+MY_HOST_UUID=$MY_HOST_UUID \
+$TWISTD -noy /root/powerstrip-flocker/powerstripflocker.tac
+EOF
+
+# create a supervisor entry that will run the bash script
+BASH=`which bash`
+cmd="$BASH /root/run-flocker-plugin.sh"
+service="flocker-plugin"
+cat << EOF > /etc/supervisor/conf.d/$service.conf
+[program:$service]
+command=$cmd
+EOF
+
+# install the latest docker binary that understands plugins
 service docker stop
 wget -O /usr/bin/docker http://storage.googleapis.com/experiments-clusterhq/docker-volume-extensions/docker
 chmod a+x /usr/bin/docker
 service docker start
+
+supervisorctl update
 COMMON
 
   config.vm.define "node1" do |node1|
