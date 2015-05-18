@@ -82,16 +82,22 @@ setup-flocker-plugin() {
   MY_HOST_UUID=$(python -c "import json; print json.load(open('/etc/flocker/volume.json'))['uuid']")
   FLOCKER_CONTROL_SERVICE_BASE_URL=http://$CONTROL_NODE:4523/v1
   TWISTD=`which twistd`
+  BASH=`which bash`
 
   # checkout the correct flocker plugin branch
   cd /root && git clone https://github.com/clusterhq/powerstrip-flocker
   cd /root/powerstrip-flocker && git checkout $PF_VERSION
 
+  cat << EOF > /root/runflockerplugin.sh
+#!/usr/bin/env bash
+cd /root/powerstrip-flocker && FLOCKER_CONTROL_SERVICE_BASE_URL=$FLOCKER_CONTROL_SERVICE_BASE_URL \
+MY_NETWORK_IDENTITY=$MY_NETWORK_IDENTITY \
+MY_HOST_UUID=$MY_HOST_UUID \
+$TWISTD -noy /root/powerstrip-flocker/powerstripflocker.tac
+EOF
+
   # create a supervisor entry that will run the plugin
-  cmd="cd /root/powerstrip-flocker && FLOCKER_CONTROL_SERVICE_BASE_URL=$FLOCKER_CONTROL_SERVICE_BASE_URL \
-  MY_NETWORK_IDENTITY=$MY_NETWORK_IDENTITY \
-  MY_HOST_UUID=$MY_HOST_UUID \
-  $TWISTD -noy /root/powerstrip-flocker/powerstripflocker.tac"
+  cmd="$BASH /root/runflockerplugin.sh"
   service="flocker-plugin"
   cat << EOF > /etc/supervisor/conf.d/$service.conf
 [program:$service]
@@ -130,6 +136,9 @@ setup-minion() {
 setup-master() {
   setup-common
   setup-control-service
+  supervisorctl update
+  sleep 5
+  setup-docker
   supervisorctl update
 }
 
