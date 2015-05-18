@@ -10,8 +10,8 @@ A base installation of the Flocker extension for Docker.
 
 ## setup
 
-Steps to get this running:
+There is a folder for each of the integration tests:
 
- * get the Vagrant cluster up and running
- * download the latest docker binary and install it
- * install the Flocker plugin on each vagrant VM
+ * [swarm](swarm)
+ * [k8s](k8s) (tbc)
+ * [mesosphere](mesosphere) (tbc)
