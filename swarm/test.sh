@@ -11,7 +11,7 @@ check-equals() {
 
 stop-test-container() {
   # remove the test container from node1
-  vagrant ssh master -c "DOCKER_HOST=tcp://127.0.0.1:2375 docker rm -f flocker-test"
+  vagrant ssh master -c "DOCKER_HOST=tcp://127.0.0.1:2375 docker rm -f flocker-test" > /dev/null
 }
 
 run-test-container() {
@@ -29,9 +29,11 @@ list-containers() {
   vagrant ssh master -c "DOCKER_HOST=tcp://127.0.0.1:2375 docker ps"
 }
 
+stop-test-container
 # start the test container on node1
 echo "starting container on node1"
 run-test-container disk
+echo "listing containers on node1"
 list-containers
 
 sleep 5
@@ -56,6 +58,7 @@ sleep 5
 # run the test container on node2
 echo "running container on node2"
 run-test-container ssd
+echo "listing containers on node2"
 list-containers
 
 sleep 5
