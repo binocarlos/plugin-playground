@@ -11,19 +11,23 @@ setup-common() {
 
 setup-minion() {
   docker pull binocarlos/hello-increment:latest
+  # and get docker listening on tcp port
 }
 
 setup-master() {
   docker pull swarm:latest
-
   DOCKER=`which docker`
-  FLOCKER_CONTAINER_AGENT=`which flocker-container-agent`
-  cmd="$FLOCKER_CONTAINER_AGENT"
-  service="flocker-container-agent"
+  SWARMIPS=`cat /etc/flocker/swarmips`
+  cmd="$DOCKER run --name swarm \
+    -p 2375:2375 \
+    swarm manage -H 0.0.0.0:2375 $SWARMIPS"
+  service="swarm"
   cat << EOF > /etc/supervisor/conf.d/$service.conf
 [program:$service]
 command=$cmd
 EOF
+
+  supervisorctl update
 }
 
 usage() {
