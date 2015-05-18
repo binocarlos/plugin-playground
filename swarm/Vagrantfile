@@ -38,7 +38,7 @@ mkdir -p /etc/flocker
 echo 172.16.255.241 > /etc/flocker/my_address
 echo 172.16.255.240 > /etc/flocker/master_address
 cd /srv && git clone https://github.com/binocarlos/generic-flocker-extension-demo
-bash /srv/generic-flocker-extension-demo/install.sh minion
+bash /srv/generic-flocker-extension-demo/setup.sh minion
 # --label storage=disk
 SCRIPT
   end
@@ -54,7 +54,7 @@ mkdir -p /etc/flocker
 echo 172.16.255.242 > /etc/flocker/my_address
 echo 172.16.255.240 > /etc/flocker/master_address
 cd /srv && git clone https://github.com/binocarlos/generic-flocker-extension-demo
-bash /srv/generic-flocker-extension-demo/install.sh minion
+bash /srv/generic-flocker-extension-demo/setup.sh minion
 # --label storage=ssd
 SCRIPT
   end
@@ -71,7 +71,7 @@ echo 172.16.255.240 > /etc/flocker/my_address
 echo 172.16.255.240 > /etc/flocker/master_address
 echo 172.16.255.241:2375,172.16.255.242:2375 > /etc/flocker/swarmips
 cd /srv && git clone https://github.com/binocarlos/generic-flocker-extension-demo
-bash /srv/generic-flocker-extension-demo/install.sh master
+bash /srv/generic-flocker-extension-demo/setup.sh master
 #bash /vagrant/install.sh master
 SCRIPT
   end
