@@ -5,13 +5,8 @@
   exit 1
 }
 
-setup-common() {
-  
-}
-
 setup-minion() {
   docker pull binocarlos/hello-increment:latest
-  # and get docker listening on tcp port
 }
 
 setup-master() {
