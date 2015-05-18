@@ -6,23 +6,24 @@
 }
 
 setup-common() {
-  setup-ssh
-  setup-zpool
-  setup-config
+  
 }
 
 setup-minion() {
-  setup-common
-  setup-zfs-agent
-  setup-container-agent
-  supervisorctl update
-  sleep 5
-  setup-flocker-plugin
+  docker pull binocarlos/hello-increment:latest
 }
 
 setup-master() {
-  setup-common
-  setup-control-service
+  docker pull swarm:latest
+
+  DOCKER=`which docker`
+  FLOCKER_CONTAINER_AGENT=`which flocker-container-agent`
+  cmd="$FLOCKER_CONTAINER_AGENT"
+  service="flocker-container-agent"
+  cat << EOF > /etc/supervisor/conf.d/$service.conf
+[program:$service]
+command=$cmd
+EOF
 }
 
 usage() {
@@ -44,11 +45,3 @@ main() {
 }
 
 main "$@"
-
-
-
-
-docker pull swarm
-
-DOCKER_HOST=unix:///var/run/docker.real.sock docker pull binocarlos/multi-http-demo-api
-DOCKER_HOST=unix:///var/run/docker.real.sock docker pull binocarlos/multi-http-demo-server
