@@ -17,6 +17,7 @@ fi
 
 CONTROL_NODE=$(cat /etc/flocker/master_address)
 MY_NETWORK_IDENTITY=$(cat /etc/flocker/my_address)
+PF_VERSION="testing_combined_volume_plugin_kai_debug"
 
 setup-ssh() {
   # make nodes trust eachother by using the same insecure key for root on both
@@ -78,7 +79,7 @@ EOF
 
 setup-flocker-plugin() {
   # variables for running the flocker plugin
-  PF_VERSION="testing_combined_volume_plugin"
+  
   MY_HOST_UUID=$(python -c "import json; print json.load(open('/etc/flocker/volume.json'))['uuid']")
   FLOCKER_CONTROL_SERVICE_BASE_URL=http://$CONTROL_NODE:4523/v1
   TWISTD=`which twistd`
@@ -90,7 +91,7 @@ setup-flocker-plugin() {
 
   cat << EOF > /root/runflockerplugin.sh
 #!/usr/bin/env bash
-cd /root/powerstrip-flocker && FLOCKER_CONTROL_SERVICE_BASE_URL=$FLOCKER_CONTROL_SERVICE_BASE_URL \
+rm -f /usr/share/docker/plugins/flocker.sock && cd /root/powerstrip-flocker && FLOCKER_CONTROL_SERVICE_BASE_URL=$FLOCKER_CONTROL_SERVICE_BASE_URL \
 MY_NETWORK_IDENTITY=$MY_NETWORK_IDENTITY \
 MY_HOST_UUID=$MY_HOST_UUID \
 $TWISTD -noy /root/powerstrip-flocker/powerstripflocker.tac
