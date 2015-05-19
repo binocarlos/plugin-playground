@@ -15,9 +15,17 @@ wait-for-app-running() {
   do
     echo "wait for container to be Running" && sleep 5
   done
-  echo "Sleeping for 10 secs for network"
-  sleep 10
+  echo "Sleeping for 20 secs for network"
+  sleep 20
 }
+
+cleanup() {
+  vagrant ssh master -c "kubectl delete rc -l name=app"
+  vagrant ssh master -c "kubectl delete pod -l name=app"
+  vagrant ssh master -c "kubectl delete service -l name=app"
+}
+
+cleanup
 
 # deploy the service and rc
 echo "Adding app service definition"
@@ -30,6 +38,7 @@ echo "Deploying controller to node1"
 vagrant ssh master -c "cat /vagrant/example/controller.json | sed 's/flocker\/testdata/flocker\/testdata$unixsecs/' | kubectl create -f -"
 echo "waiting for pod to be deployed"
 wait-for-app-running
+
 echo "listing pods"
 vagrant ssh master -c "kubectl get pods"
 
@@ -50,6 +59,7 @@ vagrant ssh master -c "kubectl get rc app -o yaml | sed 's/spinning/ssd/' | kube
 # remove the pod from node1
 vagrant ssh master -c "kubectl delete pod -l name=app"
 wait-for-app-running
+
 echo "listing pods"
 vagrant ssh master -c "kubectl get pods"
 
@@ -65,9 +75,7 @@ echo "load sixth value (node3): $counter"
 check-equals $counter 6
 
 # cleanup
-vagrant ssh master -c "kubectl delete rc -l name=app"
-vagrant ssh master -c "kubectl delete pod -l name=app"
-vagrant ssh master -c "kubectl delete service -l name=app"
+cleanup
 
 echo
 echo "all tests passed"
