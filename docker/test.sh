@@ -34,13 +34,13 @@ run-app node1
 sleep 5
 
 # increment and test the values
-counter=$(curl -sSL http://172.16.255.241:8000)
+counter=$(curl -sSL http://172.16.255.141:8000)
 echo "load first value (node1): $counter"
 check-equals $counter 1
-counter=$(curl -sSL http://172.16.255.241:8000)
+counter=$(curl -sSL http://172.16.255.141:8000)
 echo "load second value (node1): $counter"
 check-equals $counter 2
-counter=$(curl -sSL http://172.16.255.241:8000)
+counter=$(curl -sSL http://172.16.255.141:8000)
 echo "load third value (node1): $counter"
 check-equals $counter 3
 
@@ -53,13 +53,13 @@ run-app node2
 sleep 5
 
 # increment and test the values
-counter=$(curl -sSL http://172.16.255.242:8000)
+counter=$(curl -sSL http://172.16.255.142:8000)
 echo "load fourth value (node2): $counter"
 check-equals $counter 4
-counter=$(curl -sSL http://172.16.255.242:8000)
+counter=$(curl -sSL http://172.16.255.142:8000)
 echo "load fith value (node2): $counter"
 check-equals $counter 5
-counter=$(curl -sSL http://172.16.255.242:8000)
+counter=$(curl -sSL http://172.16.255.142:8000)
 echo "load sixth value (node3): $counter"
 check-equals $counter 6
 
