@@ -19,6 +19,8 @@ CONTROL_NODE=$(cat /etc/flocker/master_address)
 MY_NETWORK_IDENTITY=$(cat /etc/flocker/my_address)
 PF_VERSION="testing_combined_volume_plugin_kai_debug"
 
+# testing_latest_docker_changes
+
 setup-ssh() {
   # make nodes trust eachother by using the same insecure key for root on both
   # nodes and adding the same to root's authorized_keys file.
