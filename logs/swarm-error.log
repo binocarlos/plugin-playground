@@ -1,0 +1,42 @@
+root@node1:/var/log/supervisor# cat flocker-plugin-stderr---supervisor-4Ctumy.log
+:0: UserWarning: You do not have a working installation of the service_identity module: 'No module named service_identity'.  Please install it from <https://pypi.python.org/pypi/service_identity> and make sure all of its dependencies are satisfied.  Without the service_identity module and a recent enough pyOpenSSL to support it, Twisted can perform only rudimentary TLS client hostname verification.  Many valid certificate/hostname mappings may be rejected.
+root@node1:/var/log/supervisor# cat flocker-plugin-stdout---supervisor-kQdag_.log
+2015-05-19 11:10:00+0000 [-] Log opened.
+2015-05-19 11:10:00+0000 [-] twistd 15.1.0 (/usr/bin/python 2.7.6) starting up.
+2015-05-19 11:10:00+0000 [-] reactor class: twisted.internet.epollreactor.EPollReactor.
+2015-05-19 11:10:00+0000 [-] Site starting on '/usr/share/docker/plugins/flocker.sock'
+2015-05-19 11:10:00+0000 [-] Starting factory <twisted.web.server.Site instance at 0x7fd2f593c638>
+2015-05-19 11:13:25+0000 [HTTPChannel,0,] "-" - - [19/May/2015:11:13:25 +0000] "POST /Plugin.Activate HTTP/1.1" 200 32 "-" "Go 1.1 package http"
+2015-05-19 11:13:25+0000 [HTTPChannel,0,] create: {"Name":"data1432033999"}
+2015-05-19 11:13:25+0000 [HTTPChannel,0,]
+2015-05-19 11:13:25+0000 [HTTPChannel,0,] "-" - - [19/May/2015:11:13:25 +0000] "POST /VolumeDriver.Create HTTP/1.1" 200 13 "-" "Go 1.1 package http"
+2015-05-19 11:13:25+0000 [HTTPChannel,0,] path: {"Name":"data1432033999"}
+2015-05-19 11:13:25+0000 [HTTPChannel,0,]
+2015-05-19 11:13:25+0000 [HTTPChannel,0,] "-" - - [19/May/2015:11:13:25 +0000] "POST /VolumeDriver.Path HTTP/1.1" 200 31 "-" "Go 1.1 package http"
+2015-05-19 11:13:25+0000 [HTTPChannel,0,] path: {"Name":"data1432033999"}
+2015-05-19 11:13:25+0000 [HTTPChannel,0,]
+2015-05-19 11:13:25+0000 [HTTPChannel,0,] "-" - - [19/May/2015:11:13:25 +0000] "POST /VolumeDriver.Path HTTP/1.1" 200 31 "-" "Go 1.1 package http"
+2015-05-19 11:13:25+0000 [HTTPChannel,0,] >>> called with {u'Name': u'data1432033999'}
+2015-05-19 11:13:25+0000 [HTTPChannel,0,] {'TERM': 'linux', 'MY_HOST_UUID': '51b22115-b6cb-48c9-a014-0aa4fcdb6ec9', 'SUPERVISOR_ENABLED': '1', 'UPSTART_JOB': 'rc', 'UPSTART_INSTANCE': '', 'SHLVL': '1', 'OLDPWD': '/', 'RUNLEVEL': '2', 'MY_NETWORK_IDENTITY': '172.16.255.241', 'PREVLEVEL': 'N', 'UPSTART_EVENTS': 'runlevel', 'PWD': '/root/powerstrip-flocker', 'FLOCKER_CONTROL_SERVICE_BASE_URL': 'http://172.16.255.240:4523/v1', 'SUPERVISOR_SERVER_URL': 'unix:///var/run/supervisor.sock', 'SUPERVISOR_GROUP_NAME': 'flocker-plugin', 'runlevel': '2', 'SUPERVISOR_PROCESS_NAME': 'flocker-plugin', 'PATH': '/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin', '_': '/usr/local/bin/twistd', 'previous': 'N'}
+2015-05-19 11:13:25+0000 [HTTPChannel,0,] Starting factory <twisted.web.client._HTTP11ClientFactory instance at 0x7fd2f54e66c8>
+2015-05-19 11:13:25+0000 [HTTP11ClientProtocol,client] Starting factory <twisted.web.client._HTTP11ClientFactory instance at 0x7fd2f54fe290>
+2015-05-19 11:13:25+0000 [HTTP11ClientProtocol,client] Stopping factory <twisted.web.client._HTTP11ClientFactory instance at 0x7fd2f54e66c8>
+2015-05-19 11:13:25+0000 [HTTP11ClientProtocol,client] got json_parsed... {u'Name': u'data1432033999'}
+2015-05-19 11:13:25+0000 [HTTP11ClientProtocol,client] while processing configured datasets
+  Traceback (most recent call last):
+    File "build/bdist.linux-x86_64/egg/treq/client.py", line 44, in connectionLost
+
+    File "build/bdist.linux-x86_64/egg/treq/content.py", line 35, in connectionLost
+
+    File "/usr/local/lib/python2.7/dist-packages/Twisted-15.1.0-py2.7-linux-x86_64.egg/twisted/internet/defer.py", line 383, in callback
+      self._startRunCallbacks(result)
+    File "/usr/local/lib/python2.7/dist-packages/Twisted-15.1.0-py2.7-linux-x86_64.egg/twisted/internet/defer.py", line 491, in _startRunCallbacks
+      self._runCallbacks()
+  --- <exception caught here> ---
+    File "/usr/local/lib/python2.7/dist-packages/Twisted-15.1.0-py2.7-linux-x86_64.egg/twisted/internet/defer.py", line 578, in _runCallbacks
+      current.result = callback(current.result, *args, **kw)
+    File "/root/powerstrip-flocker/powerstripflocker/adapter.py", line 201, in got_dataset_configuration
+      json.dumps({"primary": self.host_uuid, "metadata": {"name": fs}}),
+  exceptions.AttributeError: MountResource instance has no attribute 'host_uuid'
+
+2015-05-19 11:13:25+0000 [HTTP11ClientProtocol,client] Stopping factory <twisted.web.client._HTTP11ClientFactory instance at 0x7fd2f54fe290>
