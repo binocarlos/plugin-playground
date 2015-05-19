@@ -1,0 +1,19 @@
+{
+   "kind":"Service",
+   "apiVersion":"v1beta3",
+   "metadata":{
+      "name":"app",
+      "labels":{
+         "name":"app"
+      }
+   },
+   "spec":{
+      "port":8000,
+      "containerPort":80,
+      "publicIPs": ["172.16.255.241", "172.16.255.242"],
+      "protocol":"TCP",
+      "selector":{
+         "name":"app"
+      }
+   }
+}

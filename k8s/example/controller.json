@@ -1,0 +1,56 @@
+{
+   "kind":"ReplicationController",
+   "apiVersion":"v1beta3",
+   "metadata":{
+      "name":"app",
+      "labels":{
+         "name":"app"
+      }
+   },
+   "spec":{
+      "replicas":1,
+      "selector":{
+         "name":"app"
+      },
+      "template":{
+         "metadata":{
+            "labels":{
+               "name":"app"
+            }
+         },
+         "spec":{
+            "containers":[
+               {
+                  "name":"hello-increment",
+                  "image":"binocarlos/hello-increment:latest",
+                  "ports":[
+                     {
+                        "containerPort":80,
+                        "protocol":"TCP"
+                     }
+                  ],
+                  "env":[
+                     {
+                        "name":"FILE",
+                        "value":"/data/testdata.txt"
+                     }
+                  ],
+                  "volumeMounts": [{
+                    "name": "flocker",
+                    "mountPath": "/data"
+                  }]
+               }
+            ],
+            "volumes":[{
+              "name": "flocker",
+              "hostPath":{
+                "path":"flocker/testdata"
+              }
+            }],
+            "nodeSelector":{
+               "disktype":"spinning"
+            }
+         }
+      }
+   }
+}
