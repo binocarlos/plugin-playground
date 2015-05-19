@@ -1,0 +1,74 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby sw=2 :
+
+# This requires Vagrant 1.6.2 or newer (earlier versions can't reliably
+# configure the Fedora 20 network stack).
+Vagrant.require_version ">= 1.6.2"
+
+# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
+VAGRANTFILE_API_VERSION = "2"
+
+ENV['VAGRANT_DEFAULT_PROVIDER'] = 'virtualbox'
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box = "lmarsden/flocker-tutorial"
+
+  begin
+    config.vm.box_version = "= " + ENV.fetch('FLOCKER_BOX_VERSION')
+  rescue KeyError
+  end
+
+  if Vagrant.has_plugin?("vagrant-cachier")
+    config.cache.scope = :box
+  end
+
+  config.vm.define "node1" do |node1|
+    node1.vm.network :private_network, :ip => "172.16.255.241"
+    node1.vm.hostname = "node1"
+    node1.vm.provider "virtualbox" do |v|
+      v.memory = 1024
+    end
+    node1.vm.provision "shell", inline: <<SCRIPT
+mkdir -p /etc/flocker
+echo 172.16.255.241 > /etc/flocker/my_address
+echo 172.16.255.240 > /etc/flocker/master_address
+cd /srv && git clone https://github.com/binocarlos/generic-flocker-extension-demo
+bash /srv/generic-flocker-extension-demo/setup.sh minion -H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock --label storage=disk
+bash /vagrant/setup.sh minion
+SCRIPT
+  end
+
+  config.vm.define "node2" do |node2|
+    node2.vm.network :private_network, :ip => "172.16.255.242"
+    node2.vm.hostname = "node2"
+    node2.vm.provider "virtualbox" do |v|
+      v.memory = 1024
+    end
+    node2.vm.provision "shell", inline: <<SCRIPT
+mkdir -p /etc/flocker
+echo 172.16.255.242 > /etc/flocker/my_address
+echo 172.16.255.240 > /etc/flocker/master_address
+cd /srv && git clone https://github.com/binocarlos/generic-flocker-extension-demo
+bash /srv/generic-flocker-extension-demo/setup.sh minion -H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock --label storage=ssd
+bash /vagrant/setup.sh minion
+SCRIPT
+  end
+
+  config.vm.define "master" do |master|
+    master.vm.network :private_network, :ip => "172.16.255.240"
+    master.vm.hostname = "master"
+    master.vm.provider "virtualbox" do |v|
+      v.memory = 1024
+    end
+    master.vm.provision "shell", inline: <<SCRIPT
+mkdir -p /etc/flocker
+echo 172.16.255.240 > /etc/flocker/my_address
+echo 172.16.255.240 > /etc/flocker/master_address
+echo 172.16.255.241:2375,172.16.255.242:2375 > /etc/flocker/swarmips
+cd /srv && git clone https://github.com/binocarlos/generic-flocker-extension-demo
+bash /srv/generic-flocker-extension-demo/setup.sh master
+bash /vagrant/setup.sh master
+SCRIPT
+  end
+
+end
