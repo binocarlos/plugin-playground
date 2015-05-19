@@ -1,0 +1,69 @@
+INFO[0000] +job init_networkdriver()
+INFO[0000] +job serveapi(unix:///var/run/docker.sock)
+INFO[0000] Listening for HTTP on unix (/var/run/docker.sock)
+/var/run/docker.sock is up
+INFO[0000] -job init_networkdriver() = OK (0)
+WARN[0000] Your kernel does not support cgroup swap limit.
+INFO[0000] Loading containers: start.
+
+INFO[0000] Loading containers: done.
+INFO[0000] docker daemon: 1.6.1 97cd073; execdriver: native-0.2; graphdriver: aufs
+INFO[0000] +job acceptconnections()
+INFO[0000] -job acceptconnections() = OK (0)
+INFO[0000] Daemon has completed initialization
+INFO[0000] GET /v1.18/version
+INFO[0000] +job version()
+INFO[0000] -job version() = OK (0)
+INFO[1653] Received signal 'terminated', starting shutdown of docker...
+INFO[1653] -job serveapi(unix:///var/run/docker.sock) = OK (0)
+INFO[0000] +job serveapi(unix:///var/run/docker.sock)
+INFO[0000] Listening for HTTP on unix (/var/run/docker.sock)
+INFO[0000] +job init_networkdriver()
+Waiting for /var/run/docker.sock
+/var/run/docker.sock is up
+INFO[0000] -job init_networkdriver() = OK (0)
+WARN[0001] Your kernel does not support cgroup swap limit.
+INFO[0001] Loading containers: start.
+
+INFO[0001] Loading containers: done.
+INFO[0001] docker daemon: 1.6.1 97cd073; execdriver: native-0.2; graphdriver: aufs
+INFO[0001] +job acceptconnections()
+INFO[0001] -job acceptconnections() = OK (0)
+INFO[0001] Daemon has completed initialization
+INFO[0032] Received signal 'terminated', starting shutdown of docker...
+WARN[0000] /!\ DON'T BIND ON ANY IP ADDRESS WITHOUT setting -tlsverify IF YOU DON'T KNOW WHAT YOU'RE DOING /!\
+INFO[0000] Listening for HTTP on tcp (0.0.0.0:2375)
+INFO[0000] Listening for HTTP on unix (/var/run/docker.sock)
+INFO[0000] [graphdriver] using prior storage driver "aufs"
+WARN[0000] Running modprobe bridge nf_nat failed with message: , error: exit status 1
+INFO[0000] Firewalld running: false
+WARN[0000] Your kernel does not support swap memory limit.
+INFO[0000] Loading containers: start.
+
+INFO[0000] Loading containers: done.
+INFO[0000] Daemon has completed initialization
+INFO[0000] Docker daemon                                 commit=a4dcc91 execdriver=native-0.2 graphdriver=aufs version=1.7.0-dev
+INFO[0019] POST /v1.19/images/create?fromImage=binocarlos%2Fhello-increment%3Alatest
+INFO[0236] GET /v1.15/info
+INFO[0236] GET /v1.15/containers/json?all=1&size=0
+INFO[0236] GET /v1.15/images/json
+INFO[0236] GET /v1.15/events
+INFO[0236] GET /v1.15/images/json
+INFO[0266] GET /v1.15/containers/json?all=1&size=0
+INFO[0266] GET /v1.15/images/json
+INFO[0267] GET /v1.19/containers/json?all=1
+INFO[0296] GET /v1.15/containers/json?all=1&size=0
+INFO[0296] GET /v1.15/images/json
+INFO[0326] GET /v1.15/containers/json?all=1&size=0
+INFO[0326] GET /v1.15/images/json
+INFO[0348] POST /v1.19/containers/create?name=flocker-test
+ERRO[0348] Manifest: &{[VolumeDriver]}
+ERRO[0348] Plugin: &{flocker unix:///usr/share/docker/plugins/flocker.sock 0xc2083f9340 0xc2083f92c0}
+ERRO[0348] Implements: VolumeDriver
+INFO[0348] POST /v1.19/containers/6c2b43c84415675ca0fe2e0e236bab344bbc2950e7e96b3cb31cd392b7fbc12d/start
+INFO[0348] GET /v1.15/containers/json?all=1&size=0&filters={"id":["6c2b43c84415675ca0fe2e0e236bab344bbc2950e7e96b3cb31cd392b7fbc12d"]}
+INFO[0356] GET /v1.15/containers/json?all=1&size=0
+INFO[0415] GET /v1.15/containers/json?all=1&limit=-1&trunc_cmd=1&size=0
+INFO[0476] GET /v1.15/containers/json?all=1&limit=-1&trunc_cmd=1&size=0
+INFO[0538] GET /v1.15/containers/json?all=1&limit=-1&trunc_cmd=1&size=0
+INFO[0547] GET /v1.19/containers/json

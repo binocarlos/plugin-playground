@@ -1,0 +1,5 @@
+root@node1:/usr/share/docker/plugins# curl -L http://172.16.255.240:4523/v1/configuration/datasets
+[{"deleted": false, "dataset_id": "2fab15cc-4b32-45bd-80ed-bdc58b5dc1c2", "primary": "e50d9282-8b54-bd4f-ccdc-d5810ad8c6e0", "metadata": {"name": "dataapples"}}]
+
+root@node1:/usr/share/docker/plugins# curl -L http://172.16.255.240:4523/v1/state/datasets
+[]
