@@ -20,8 +20,11 @@ wait-for-app-running() {
 }
 
 cleanup() {
+  echo "cleaning rcs"
   vagrant ssh master -c "kubectl delete rc -l name=app"
+  echo "cleaning pods"
   vagrant ssh master -c "kubectl delete pod -l name=app"
+  echo "cleaning services"
   vagrant ssh master -c "kubectl delete service -l name=app"
 }
 
@@ -54,9 +57,11 @@ echo "load third value (node1): $counter"
 check-equals $counter 3
 
 # update the rc to target node2
+echo "Updating rc to target node2"
 vagrant ssh master -c "kubectl get rc app -o yaml | sed 's/spinning/ssd/' | kubectl update -f -"
 
 # remove the pod from node1
+echo "Removing pod from node1"
 vagrant ssh master -c "kubectl delete pod -l name=app"
 wait-for-app-running
 
