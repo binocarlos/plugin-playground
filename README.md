@@ -13,5 +13,19 @@ A base installation of the Flocker extension for Docker.
 There is a folder for each of the integration tests:
 
  * [swarm](swarm)
- * [k8s](k8s) (tbc)
+ * [k8s](k8s)
  * [mesosphere](mesosphere) (tbc)
+
+## run tests
+
+Each integration has its own test that can be run using `make test` from the integration folder:
+
+```bash
+$ cd swarm && make test
+```
+
+Or you can use `make test` from the top level to run through all 3:
+
+```bash
+$ make test
+```
