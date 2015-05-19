@@ -13,6 +13,7 @@ check-equals() {
 wait-for-app-running() {
   while [[ ! `vagrant ssh master -c "kubectl get pods | grep name=app | grep Running"` ]];
   do
+    vagrant ssh master -c "kubectl get pods | grep name=app"
     echo "wait for container to be Running" && sleep 5
   done
   echo "Sleeping for 20 secs for network"
