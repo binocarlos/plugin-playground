@@ -2,8 +2,8 @@
 
 unixsecs=$(date +%s)
 
-export MARATHON_HOST=${MARATHON_HOST:=http://172.16.255.240:8080}
-export APP_HOST=${APP_HOST:=http://172.16.255.241:8000}
+export MARATHON_HOST=${MARATHON_HOST:=http://172.16.255.160:8080}
+export APP_HOST=${APP_HOST:=http://172.16.255.161:8000}
 
 SOURCE="${BASH_SOURCE[0]}"
 while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
@@ -135,13 +135,13 @@ wait-for-job app-$unixsecs node1 binocarlos/hello-increment:latest
 sleep 5
 
 # increment and test the values
-counter=$(curl -sSL http://172.16.255.241:8000)
+counter=$(curl -sSL http://172.16.255.161:8000)
 echo "load first value (node1): $counter"
 check-equals $counter 1
-counter=$(curl -sSL http://172.16.255.241:8000)
+counter=$(curl -sSL http://172.16.255.161:8000)
 echo "load second value (node1): $counter"
 check-equals $counter 2
-counter=$(curl -sSL http://172.16.255.241:8000)
+counter=$(curl -sSL http://172.16.255.161:8000)
 echo "load third value (node1): $counter"
 check-equals $counter 3
 
@@ -156,13 +156,13 @@ echo "waiting for docker container on node2"
 wait-for-job app-$unixsecs node2 binocarlos/hello-increment:latest
 
 # increment and test the values
-counter=$(curl -sSL http://172.16.255.242:8000)
+counter=$(curl -sSL http://172.16.255.162:8000)
 echo "load fourth value (node2): $counter"
 check-equals $counter 4
-counter=$(curl -sSL http://172.16.255.242:8000)
+counter=$(curl -sSL http://172.16.255.162:8000)
 echo "load fith value (node2): $counter"
 check-equals $counter 5
-counter=$(curl -sSL http://172.16.255.242:8000)
+counter=$(curl -sSL http://172.16.255.162:8000)
 echo "load sixth value (node3): $counter"
 check-equals $counter 6
 

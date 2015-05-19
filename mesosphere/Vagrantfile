@@ -23,17 +23,17 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.define "master" do |master|
-    master.vm.network :private_network, :ip => "172.16.255.240"
+    master.vm.network :private_network, :ip => "172.16.255.160"
     master.vm.hostname = "master"
     master.vm.provider "virtualbox" do |v|
       v.memory = 1024
     end
     master.vm.provision "shell", inline: <<SCRIPT
 mkdir -p /etc/flocker
-echo 172.16.255.240 > /etc/flocker/my_address
-echo 172.16.255.240 > /etc/flocker/master_address
-echo 172.16.255.241 > /etc/flocker/slave1_address
-echo 172.16.255.242 > /etc/flocker/slave2_address
+echo 172.16.255.160 > /etc/flocker/my_address
+echo 172.16.255.160 > /etc/flocker/master_address
+echo 172.16.255.161 > /etc/flocker/slave1_address
+echo 172.16.255.162 > /etc/flocker/slave2_address
 echo master > /etc/flocker/hostname
 cd /srv && git clone https://github.com/binocarlos/generic-flocker-extension-demo
 bash /srv/generic-flocker-extension-demo/setup.sh master
@@ -42,17 +42,17 @@ SCRIPT
   end
 
   config.vm.define "node1" do |node1|
-    node1.vm.network :private_network, :ip => "172.16.255.241"
+    node1.vm.network :private_network, :ip => "172.16.255.161"
     node1.vm.hostname = "node1"
     node1.vm.provider "virtualbox" do |v|
       v.memory = 1024
     end
     node1.vm.provision "shell", inline: <<SCRIPT
 mkdir -p /etc/flocker
-echo 172.16.255.241 > /etc/flocker/my_address
-echo 172.16.255.240 > /etc/flocker/master_address
-echo 172.16.255.241 > /etc/flocker/slave1_address
-echo 172.16.255.242 > /etc/flocker/slave2_address
+echo 172.16.255.161 > /etc/flocker/my_address
+echo 172.16.255.160 > /etc/flocker/master_address
+echo 172.16.255.161 > /etc/flocker/slave1_address
+echo 172.16.255.162 > /etc/flocker/slave2_address
 echo node1 > /etc/flocker/hostname
 cd /srv && git clone https://github.com/binocarlos/generic-flocker-extension-demo
 bash /srv/generic-flocker-extension-demo/setup.sh minion
@@ -62,17 +62,17 @@ SCRIPT
   end
 
   config.vm.define "node2" do |node2|
-    node2.vm.network :private_network, :ip => "172.16.255.242"
+    node2.vm.network :private_network, :ip => "172.16.255.162"
     node2.vm.hostname = "node2"
     node2.vm.provider "virtualbox" do |v|
       v.memory = 1024
     end
     node2.vm.provision "shell", inline: <<SCRIPT
 mkdir -p /etc/flocker
-echo 172.16.255.242 > /etc/flocker/my_address
-echo 172.16.255.240 > /etc/flocker/master_address
-echo 172.16.255.241 > /etc/flocker/slave1_address
-echo 172.16.255.242 > /etc/flocker/slave2_address
+echo 172.16.255.162 > /etc/flocker/my_address
+echo 172.16.255.160 > /etc/flocker/master_address
+echo 172.16.255.161 > /etc/flocker/slave1_address
+echo 172.16.255.162 > /etc/flocker/slave2_address
 echo node2 > /etc/flocker/hostname
 cd /srv && git clone https://github.com/binocarlos/generic-flocker-extension-demo
 bash /srv/generic-flocker-extension-demo/setup.sh minion
