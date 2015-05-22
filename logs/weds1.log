@@ -1,0 +1,32 @@
+2015-05-20 14:18:33+0000 [-] Log opened.
+2015-05-20 14:18:33+0000 [-] twistd 15.1.0 (/usr/bin/python 2.7.6) starting up.
+2015-05-20 14:18:33+0000 [-] reactor class: twisted.internet.epollreactor.EPollReactor.
+2015-05-20 14:18:33+0000 [-] Site starting on '/usr/share/docker/plugins/flocker.sock'
+2015-05-20 14:18:33+0000 [-] Starting factory <twisted.web.server.Site instance at 0x7f9726d4c7e8>
+2015-05-20 14:26:41+0000 [HTTPChannel,0,] "-" - - [20/May/2015:14:26:40 +0000] "POST /Plugin.Activate HTTP/1.1" 200 32 "-" "Go 1.1 package http"
+2015-05-20 14:26:41+0000 [HTTPChannel,0,] create: {"Name":"data1432132036"}
+2015-05-20 14:26:41+0000 [HTTPChannel,0,]
+2015-05-20 14:26:41+0000 [HTTPChannel,0,] "-" - - [20/May/2015:14:26:40 +0000] "POST /VolumeDriver.Create HTTP/1.1" 200 13 "-" "Go 1.1 package http"
+2015-05-20 14:26:41+0000 [HTTPChannel,0,] path: {"Name":"data1432132036"}
+2015-05-20 14:26:41+0000 [HTTPChannel,0,]
+2015-05-20 14:26:41+0000 [HTTPChannel,0,] "-" - - [20/May/2015:14:26:40 +0000] "POST /VolumeDriver.Path HTTP/1.1" 200 31 "-" "Go 1.1 package http"
+2015-05-20 14:26:41+0000 [HTTPChannel,0,] path: {"Name":"data1432132036"}
+2015-05-20 14:26:41+0000 [HTTPChannel,0,]
+2015-05-20 14:26:41+0000 [HTTPChannel,0,] "-" - - [20/May/2015:14:26:40 +0000] "POST /VolumeDriver.Path HTTP/1.1" 200 31 "-" "Go 1.1 package http"
+2015-05-20 14:26:41+0000 [HTTPChannel,0,] >>> called with {u'Name': u'data1432132036'}
+2015-05-20 14:26:41+0000 [HTTPChannel,0,] {'TERM': 'linux', 'MY_HOST_UUID': '29dea44a-c711-47dc-80bc-fd545d1c805d', 'SUPERVISOR_ENABLED': '1', 'UPSTART_JOB': 'rc', 'UPSTART_INSTANCE': '', 'SHLVL': '1', 'OLDPWD': '/', 'RUNLEVEL': '2', 'MY_NETWORK_IDENTITY': '172.16.255.171', 'PREVLEVEL': 'N', 'UPSTART_EVENTS': 'runlevel', 'PWD': '/root/powerstrip-flocker', 'FLOCKER_CONTROL_SERVICE_BASE_URL': 'http://172.16.255.170:4523/v1', 'SUPERVISOR_SERVER_URL': 'unix:///var/run/supervisor.sock', 'SUPERVISOR_GROUP_NAME': 'flocker-plugin', 'runlevel': '2', 'SUPERVISOR_PROCESS_NAME': 'flocker-plugin', 'PATH': '/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin', '_': '/usr/local/bin/twistd', 'previous': 'N'}
+2015-05-20 14:26:41+0000 [HTTPChannel,0,] Starting factory <twisted.web.client._HTTP11ClientFactory instance at 0x7f97268f7878>
+2015-05-20 14:26:41+0000 [HTTP11ClientProtocol,client] Nodes returned from /state/nodes
+2015-05-20 14:26:41+0000 [HTTP11ClientProtocol,client] [{u'host': u'172.16.255.172',
+2015-05-20 14:26:41+0000 [HTTP11ClientProtocol,client]   u'uuid': u'17f2c326-dda9-32ec-fb7c-ec676342b863'}]
+2015-05-20 14:26:41+0000 [HTTP11ClientProtocol,client] Stopping factory <twisted.web.client._HTTP11ClientFactory instance at 0x7f97268f7878>
+2015-05-20 14:26:41+0000 [-] Starting factory <twisted.web.client._HTTP11ClientFactory instance at 0x7f9726d685a8>
+2015-05-20 14:26:41+0000 [HTTP11ClientProtocol,client] Nodes returned from /state/nodes
+2015-05-20 14:26:41+0000 [HTTP11ClientProtocol,client] [{u'host': u'172.16.255.172',
+2015-05-20 14:26:41+0000 [HTTP11ClientProtocol,client]   u'uuid': u'17f2c326-dda9-32ec-fb7c-ec676342b863'}]
+2015-05-20 14:26:41+0000 [HTTP11ClientProtocol,client] Stopping factory <twisted.web.client._HTTP11ClientFactory instance at 0x7f9726d685a8>
+2015-05-20 14:26:41+0000 [-] Starting factory <twisted.web.client._HTTP11ClientFactory instance at 0x7f972690f368>
+2015-05-20 14:26:41+0000 [HTTP11ClientProtocol,client] Nodes returned from /state/nodes
+2015-05-20 14:26:41+0000 [HTTP11ClientProtocol,client] [{u'host': u'172.16.255.172',
+2015-05-20 14:26:41+0000 [HTTP11ClientProtocol,client]   u'uuid': u'17f2c326-dda9-32ec-fb7c-ec676342b863'}]
+2015-05-20 14:26:41+0000 [HTTP11ClientProtocol,client] Stopping factory <twisted.web.client._HTTP11ClientFactory instance at 0x7f972690f368>
