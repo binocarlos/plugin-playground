@@ -17,7 +17,8 @@ fi
 
 CONTROL_NODE=$(cat /etc/flocker/master_address)
 MY_NETWORK_IDENTITY=$(cat /etc/flocker/my_address)
-PF_VERSION="testing_combined_volume_plugin_kai_debug"
+#PF_VERSION="testing_combined_volume_plugin_kai_debug"
+PF_VERSION="testing_latest_docker_changes"
 
 # testing_latest_docker_changes
 
