@@ -14,11 +14,14 @@
         "containerPort": 8000,
         "hostPort": 8000,
         "protocol": "tcp"
-      }]
+      }],
+      "parameters": [
+        { "key": "volume-driver", "value": "flocker" }
+      ]
     },
     "volumes":[{
       "containerPath": "/data",
-      "hostPath": "flocker/testdata",
+      "hostPath": "apples1",
       "mode": "RW"
     }],
     "forcePullImage":true
